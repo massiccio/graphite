@@ -338,7 +338,7 @@ $ pip install --upgrade pip
 $ pip install diamond
 ```
 
-Next, copy the configuration file to /etc/diamond/diamond.conf and the init script to /etc/init.d/diamond (this step works  on CentOS 7 as well). Customize as needed the IP address of the graphite host (see GraphiteHandler section) and the collectors to be run (e.g., enable the MySQL collectors if needed). Extra DB collectors can be added if needed.
+Next, copy [this](https://github.com/massiccio/graphite/blob/master/configuration_files/etc/diamond/diamond.conf) configuration file  to /etc/diamond/diamond.conf and [this](https://github.com/massiccio/graphite/blob/master/configuration_files/etc/init.d/diamond) init script to /etc/init.d/diamond (this step works  on CentOS 7 as well). Customize as needed the IP address of the graphite host (see GraphiteHandler section) and the collectors to be run (e.g., enable the MySQL collectors if needed). Extra DB collectors can be added if needed.
 They should be stored in /usr/share/diamond/collectors/ and configured in /etc/diamond/diamond.conf
 
 Finally, create the missing directory, setup diamond to be run as a service and start the daemon:
