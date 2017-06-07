@@ -7,7 +7,7 @@ Instructions for CentOS
 
 [[MySQLPerfSchemaCollector]]
 enabled = True
-hosts = root:@localhost:3306/Non
+hosts = root:@localhost:3306/None
 
 - Restart the Diamond daemon:
 service diamond restart
