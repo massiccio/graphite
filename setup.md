@@ -349,3 +349,5 @@ $ chkconfig --add /etc/init.d/diamond
 $ chkconfig --list |grep diamond # check that the service starts at least for levels 3, 4, and 5
 $ service diamond start
 ```
+
+Extra collectors for diamond can be found [here](https://github.com/massiccio/graphite/tree/master/diamond_collectors).
