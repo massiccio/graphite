@@ -2,6 +2,10 @@
 # Note: the above script causes a full GC at every execution, see
 # http://netflix.github.io/spectator/en/latest/ext/jvm-gc-causes/#heap_inspection_initiated_gc
 
+# This script parses the output of jmap and sends the resulting data to Graphite
+# It assumes there is only one JVM running from a jar file. If that is not the case, the get_total_heap_values() function
+# should be modified accordingly.
+
 HOSTNAME=`hostname --short`
 GRAPHITE=127.0.0.1
 GRAPHITE_PORT=2003
