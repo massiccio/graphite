@@ -26,7 +26,6 @@ get_total_heap_values()
 
 }
 
-
 while true; do
 	START=$(date +%s);
         get_total_heap_values

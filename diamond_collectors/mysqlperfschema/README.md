@@ -1,4 +1,4 @@
-Extra collectors for Diamond, https://github.com/python-diamond/Diamond
+Extra collector for Diamond, https://github.com/python-diamond/Diamond
 
 Instructions for CentOS
 
