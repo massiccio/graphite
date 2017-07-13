@@ -50,7 +50,7 @@ class MySQLPerfSchemaCollector(diamond.collector.Collector):
             self.db = MySQLdb.connect(**params)
             self.log.debug('MySQLPerfSchemaCollector: Connected to database.')
         except MySQLError, e:
-            self.log.error('MySQLPerfSchemaCollector couldnt connect to database %s', e)
+            self.log.error('MySQLPerfSchemaCollector: Couldn\'t connect to database %s', e)
             return False
         return True
 
@@ -66,7 +66,7 @@ class MySQLPerfSchemaCollector(diamond.collector.Collector):
             cursor.execute(query)
             return cursor.fetchall()
         except MySQLError, e:
-            self.log.error('MySQLPerfSchemaCollector could not get performance schema stats', e)
+            self.log.error('MySQLPerfSchemaCollector: Could not get performance schema stats', e)
             return ()
 
     # Parse the results and stores them into a dictionary
@@ -116,9 +116,9 @@ class MySQLPerfSchemaCollector(diamond.collector.Collector):
             rate = self.derivative(key, value)
             self.publish(key, rate)
             counter = counter + 1L
-            self.log.debug('%s = %d', key, rate)
+            self.log.debug('MySQLPerfSchemaCollector: Published %s = %d', key, rate)
 
-        self.log.debug('Published %d metrics', counter)
+        self.log.debug('MySQLPerfSchemaCollector: Published %d metrics', counter)
 
     def get_stats(self, params, query_table_stats, query_index_stats):
 
@@ -135,14 +135,14 @@ class MySQLPerfSchemaCollector(diamond.collector.Collector):
     def collect(self):
 
         if MySQLdb is None:
-            self.log.error('Unable to import MySQLdb')
+            self.log.error('MySQLPerfSchemaCollector: Unable to import MySQLdb')
             return False
 
         for host in self.config['hosts']:
             matches = re.search('^([^:]*):([^@]*)@([^:]*):?([^/]*)/([^/]*)/?(.*)', host)
 
             if not matches:
-                self.log.error('Connection string not in required format, skipping: %s', host)
+                self.log.error('MySQLPerfSchemaCollector: Connection string not in required format, skipping: %s', host)
                 continue
 
             params = {}
@@ -162,24 +162,24 @@ class MySQLPerfSchemaCollector(diamond.collector.Collector):
 
             if params['db'] == 'None':
                 del params['db']
-                self.log.debug('Database not specified. Querying performance schema data about all schemas.')
+                self.log.debug('MySQLPerfSchemaCollector: Database not specified. Querying performance schema data about all schemas.')
                 # query all stats
             else:
                 query_table_stats = self._TABLE_STATS.format(params['db'])
                 query_index_stats = self._INDEX_STATS.format(params['db'])
-                self.log.debug('Getting metrics for database: %s', params['db'])
+                self.log.debug('MySQLPerfSchemaCollector: Getting metrics for database: %s', params['db'])
 
             try:
                 metrics = self.get_stats(params, query_table_stats, query_index_stats)
                 if len(metrics) == 0:
-                    self.log.debug('Empty metric set.')
+                    self.log.debug('MySQLPerfSchemaCollector: Empty metric set.')
                 else:
-                    self.log.debug('Publishing %d metrics', len(metrics))
+                    self.log.debug('MySQLPerfSchemaCollector: Publishing %d metrics', len(metrics))
                     self._publish_stats(metrics)
             except Exception, e:
                 try:
-                    self.log.error("Error %s", e)
+                    self.log.error("MySQLPerfSchemaCollector: Error %s", e)
                     self.disconnect()
                 except MySQLdb.ProgrammingError:
                     pass
-                self.log.error('Collection failed for %s', e)
+                self.log.error('MySQLPerfSchemaCollector: Collection failed for %s', e)
